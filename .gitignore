@@ -2,3 +2,4 @@
 **/bin
 **/obj
 global.json
+*.user
