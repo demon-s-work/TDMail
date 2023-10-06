@@ -11,7 +11,7 @@ using TDMail.WinApiImpl;
 
 namespace TDMail
 {
-	public partial class MainWindow : Window
+	public partial class MainWindow
 	{
 		private HotKey? _hotKey;
 		private bool _captureHotKey;
@@ -21,7 +21,7 @@ namespace TDMail
 		public MainWindow()
 		{
 			InitializeComponent();
-			Closed += (sender, args) => _hotKey?.Dispose();
+			Closed += (_, _) => _hotKey?.Dispose();
 		}
 
 		protected override async void OnInitialized(EventArgs e)
@@ -54,7 +54,7 @@ namespace TDMail
 			{
 				_hotKey = new HotKey(mod, key, this, action);
 			}
-			catch (Exception e)
+			catch (Exception)
 			{
 				MessageBox.Show("Hotkey already in use, try another");
 			}
@@ -69,7 +69,7 @@ namespace TDMail
 				           .SetBackgroundActivation())
 				.Show(toast => {
 					toast.ExpirationTime = DateTimeOffset.Now.AddSeconds(20);
-					toast.Activated += (sender, args) => {
+					toast.Activated += (_, _) => {
 						Dispatcher.Invoke(() => {
 							if (link != null)
 								Clipboard.SetText(link);
