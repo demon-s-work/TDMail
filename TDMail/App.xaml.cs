@@ -29,7 +29,10 @@ namespace TDMail
 
 		private void OpenItemOnClick(object? sender, EventArgs e)
 		{
-			
+			if (MainWindow is not null)
+			{
+				MainWindow.WindowState = WindowState.Normal;
+			}
 		}
 
 		private ContextMenuStrip CreateContextMenu()
@@ -37,8 +40,8 @@ namespace TDMail
 			var menuStrip = new ContextMenuStrip();
 			var openItem = new ToolStripMenuItem("Open");
 			var closeItem = new ToolStripMenuItem("Exit");
-			
-			openItem.Click += (_, _) => {};
+
+			openItem.Click += OpenItemOnClick;
 			closeItem.Click += (_, _) => {Shutdown(1);};
 
 			menuStrip.Items.AddRange(new ToolStripItem[]
