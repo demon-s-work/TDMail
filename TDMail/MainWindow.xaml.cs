@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 using System.Windows;
@@ -23,13 +24,28 @@ namespace TDMail
 			InitializeComponent();
 			Closed += (_, _) => _hotKey?.Dispose();
 		}
-
+		
 		protected override async void OnInitialized(EventArgs e)
 		{
 			base.OnInitialized(e);
 			await _mailService.InitNewMail();
 			_mailService.OnMessageReceive += MailServiceOnOnMessageReceive;
 			_ = _mailService.StartListener(_cancellationToken);
+		}
+		
+		protected override void OnClosing(CancelEventArgs e)
+		{
+			e.Cancel = true;
+			Hide();
+		}
+
+		protected override void OnStateChanged(EventArgs e)
+		{
+			base.OnStateChanged(e);
+            if (WindowState == WindowState.Minimized)
+            {
+                Hide();
+            }
 		}
 
 		private void MailServiceOnOnMessageReceive(object? sender, MessageSource e)

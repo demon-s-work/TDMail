@@ -31,6 +31,7 @@ namespace TDMail
 		{
 			if (MainWindow is not null)
 			{
+				MainWindow.Show();
 				MainWindow.WindowState = WindowState.Normal;
 			}
 		}
