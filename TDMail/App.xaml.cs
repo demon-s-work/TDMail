@@ -2,16 +2,13 @@
 using System.Drawing;
 using System.Windows;
 using System.Windows.Forms;
-using static System.Windows.Forms.NotifyIcon;
-using Application=System.Windows.Application;
-using MessageBox=System.Windows.MessageBox;
 
 namespace TDMail
 {
 	/// <summary>
 	/// Interaction logic for App.xaml
 	/// </summary>
-	public partial class App : Application
+	public partial class App
 	{
 		protected override void OnStartup(StartupEventArgs e)
 		{

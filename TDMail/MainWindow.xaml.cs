@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using Microsoft.Toolkit.Uwp.Notifications;
@@ -51,7 +52,7 @@ namespace TDMail
 		private void MailServiceOnOnMessageReceive(object? sender, MessageSource e)
 		{
 			Dispatcher.Invoke(() => {
-				Notify("New email", MailParser.ParseLinks(e.Data).FirstOrDefault());
+				Notify("New email", MailParser.ParseLinks(e.Data));
 			});
 		}
 
@@ -76,19 +77,22 @@ namespace TDMail
 			}
 		}
 
-		private void Notify(string text, string? link)
+		private void Notify(string text, List<string> links)
 		{
 			new ToastContentBuilder()
 				.AddText(text)
 				.AddButton(new ToastButton()
-				           .SetContent($"Copy {link}...")
+				           .SetContent($"Copy {links}...")
 				           .SetBackgroundActivation())
 				.Show(toast => {
 					toast.ExpirationTime = DateTimeOffset.Now.AddSeconds(20);
 					toast.Activated += (_, _) => {
 						Dispatcher.Invoke(() => {
-							if (link != null)
-								Clipboard.SetText(link);
+							if (links != null)
+								foreach (var link in links)
+								{
+									Clipboard.SetText(link);
+								}
 						});
 					};
 				});
